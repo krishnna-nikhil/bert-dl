@@ -1,13 +1,19 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
+
+
+
+
+
+
 # #eda
 
-# In[ ]:
 
 
-User
-my code:
+
+
 import re
 import string
 import numpy as np
@@ -172,9 +178,16 @@ df['temp_list1'] = df['emotion_in_tweet_is_directed_at'].apply(lambda x: str(x).
 df['temp_list1'] = df['temp_list1'].apply(lambda x: [word for word in x if word not in stopwords_set])
 
 
-# #deep learning
 
-# In[ ]:
+
+
+
+
+
+
+# #deep learning model
+
+
 
 
 import numpy as np
@@ -290,9 +303,11 @@ except Exception as e:
     print("Error during training:", e)
 
 
+
+
+
 # #bert model
 
-# In[ ]:
 
 
 import numpy as np
