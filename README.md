@@ -1,7 +1,7 @@
 
 
 
-### the key observations and patterns from the Exploratory Data Analysis (EDA) of the dataset:   ###
+### The key observations and patterns from the Exploratory Data Analysis (EDA) of the dataset:   ###
 
 Class Distribution:
 
