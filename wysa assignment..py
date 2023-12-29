@@ -185,122 +185,8 @@ df['temp_list1'] = df['temp_list1'].apply(lambda x: [word for word in x if word 
 
 
 
-# #deep learning model
 
 
-
-
-import numpy as np
-import pandas as pd
-import re
-import string
-from nltk.corpus import stopwords
-import gensim
-import nltk
-from nltk.tokenize.treebank import TreebankWordDetokenizer
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
-from keras.layers import Embedding
-from keras.models import Sequential
-from keras import layers
-import tensorflow as tf
-import matplotlib.pyplot as plt
-
-df = pd.read_csv(r'C:\Users\Krishnna Nikhil\Downloads\ML Assignment Dataset - Train.csv')
-df = df.rename(columns={"tweet_text": "text", "emotion_in_tweet_is_directed_at": "emotion", "is_there_an_emotion_directed_at_a_brand_or_product": "sentiment"})
-df = df.dropna(subset=['emotion'])
-train = df[['text', 'sentiment']].copy()
-train['text'].fillna('No text', inplace=True)
-
-def cleantext(text):
-    text = re.sub(r'@[A-Za-z0-9]+', '', text)
-    text = re.sub(r'#', '', text)
-    text = re.sub(r'https?:\/\/\S+', '', text)
-    text = re.sub('\s+', ' ', text)
-    text = re.sub("\'", "", text)
-    return text
-
-train['text'] = train['text'].apply(cleantext)
-train["text"] = train["text"].apply(lambda wrd: [ltrs.lower() for ltrs in wrd if ltrs not in string.punctuation])
-train["text"] = train["text"].apply(lambda wrd: ''.join(wrd))
-train["text"] = train["text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stopwords.words("english")]))
-
-def sent_to_words(sentences):
-    for sentence in sentences:
-        yield(gensim.utils.simple_preprocess(str(sentence), deacc=True))
-
-def detokenize(text):
-    return TreebankWordDetokenizer().detokenize(text)
-
-temp = []
-data_to_list = train['text'].values.tolist()
-for i in range(len(data_to_list)):
-    temp.append(data_to_list[i])
-data_wordslem = list(sent_to_words(temp))
-
-lemmatizer = nltk.stem.WordNetLemmatizer()
-
-for i in range(len(data_wordslem)):
-    for j in range(len(data_wordslem[i])):
-        data_wordslem[i][j] = lemmatizer.lemmatize(data_wordslem[i][j], pos="v")
-
-data = []
-for i in range(len(data_wordslem)):
-    data.append(detokenize(data_wordslem[i]))
-
-max_words = 5000
-max_len = 200
-
-tokenizer = Tokenizer(num_words=max_words)
-tokenizer.fit_on_texts(data)
-sequences = tokenizer.texts_to_sequences(data)
-tweets = pad_sequences(sequences, maxlen=max_len)
-
-embedding_layer = Embedding(input_dim=max_words, output_dim=64)
-
-model2 = Sequential()
-model2.add(embedding_layer)
-model2.add(layers.Bidirectional(layers.LSTM(20, dropout=0.6)))
-model2.add(layers.Dense(3, activation='softmax'))
-
-model2.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-
-train['sentiment'] = train['sentiment'].str.lower()
-
-invalid_labels = train['sentiment'][~train['sentiment'].isin(label_mapping.keys())].unique()
-train['sentiment'].replace(invalid_labels, 'no emotion toward brand or product', inplace=True)
-train['sentiment'] = train['sentiment'].map(label_mapping)
-
-print(train['sentiment'].unique())
-print(model2.summary())
-
-try:
-    history = model2.fit(
-        x=tweets,
-        y=train['sentiment'],
-        epochs=70,
-        validation_split=0.2,
-        shuffle=True
-    )
-
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('Loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'validation'], loc='upper left')
-    plt.show()
-
-    plt.plot(history.history['accuracy'])
-    plt.plot(history.history['val_accuracy'])
-    plt.title('Accuracy')
-    plt.ylabel('Accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'validation'], loc='upper left')
-    plt.show()
-
-except Exception as e:
-    print("Error during training:", e)
 
 
 
@@ -442,3 +328,133 @@ if __name__ == '__main__':
     report = classification_report(all_labels, all_preds, zero_division=1)
     print(report)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# #deep learning model
+
+
+
+
+import numpy as np
+import pandas as pd
+import re
+import string
+from nltk.corpus import stopwords
+import gensim
+import nltk
+from nltk.tokenize.treebank import TreebankWordDetokenizer
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+from keras.layers import Embedding
+from keras.models import Sequential
+from keras import layers
+import tensorflow as tf
+import matplotlib.pyplot as plt
+
+df = pd.read_csv(r'C:\Users\Krishnna Nikhil\Downloads\ML Assignment Dataset - Train.csv')
+df = df.rename(columns={"tweet_text": "text", "emotion_in_tweet_is_directed_at": "emotion", "is_there_an_emotion_directed_at_a_brand_or_product": "sentiment"})
+df = df.dropna(subset=['emotion'])
+train = df[['text', 'sentiment']].copy()
+train['text'].fillna('No text', inplace=True)
+
+def cleantext(text):
+    text = re.sub(r'@[A-Za-z0-9]+', '', text)
+    text = re.sub(r'#', '', text)
+    text = re.sub(r'https?:\/\/\S+', '', text)
+    text = re.sub('\s+', ' ', text)
+    text = re.sub("\'", "", text)
+    return text
+
+train['text'] = train['text'].apply(cleantext)
+train["text"] = train["text"].apply(lambda wrd: [ltrs.lower() for ltrs in wrd if ltrs not in string.punctuation])
+train["text"] = train["text"].apply(lambda wrd: ''.join(wrd))
+train["text"] = train["text"].apply(lambda x: ' '.join([word for word in x.split() if word not in stopwords.words("english")]))
+
+def sent_to_words(sentences):
+    for sentence in sentences:
+        yield(gensim.utils.simple_preprocess(str(sentence), deacc=True))
+
+def detokenize(text):
+    return TreebankWordDetokenizer().detokenize(text)
+
+temp = []
+data_to_list = train['text'].values.tolist()
+for i in range(len(data_to_list)):
+    temp.append(data_to_list[i])
+data_wordslem = list(sent_to_words(temp))
+
+lemmatizer = nltk.stem.WordNetLemmatizer()
+
+for i in range(len(data_wordslem)):
+    for j in range(len(data_wordslem[i])):
+        data_wordslem[i][j] = lemmatizer.lemmatize(data_wordslem[i][j], pos="v")
+
+data = []
+for i in range(len(data_wordslem)):
+    data.append(detokenize(data_wordslem[i]))
+
+max_words = 5000
+max_len = 200
+
+tokenizer = Tokenizer(num_words=max_words)
+tokenizer.fit_on_texts(data)
+sequences = tokenizer.texts_to_sequences(data)
+tweets = pad_sequences(sequences, maxlen=max_len)
+
+embedding_layer = Embedding(input_dim=max_words, output_dim=64)
+
+model2 = Sequential()
+model2.add(embedding_layer)
+model2.add(layers.Bidirectional(layers.LSTM(20, dropout=0.6)))
+model2.add(layers.Dense(3, activation='softmax'))
+
+model2.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+train['sentiment'] = train['sentiment'].str.lower()
+
+invalid_labels = train['sentiment'][~train['sentiment'].isin(label_mapping.keys())].unique()
+train['sentiment'].replace(invalid_labels, 'no emotion toward brand or product', inplace=True)
+train['sentiment'] = train['sentiment'].map(label_mapping)
+
+print(train['sentiment'].unique())
+print(model2.summary())
+
+try:
+    history = model2.fit(
+        x=tweets,
+        y=train['sentiment'],
+        epochs=70,
+        validation_split=0.2,
+        shuffle=True
+    )
+
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('Loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'validation'], loc='upper left')
+    plt.show()
+
+    plt.plot(history.history['accuracy'])
+    plt.plot(history.history['val_accuracy'])
+    plt.title('Accuracy')
+    plt.ylabel('Accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'validation'], loc='upper left')
+    plt.show()
+
+except Exception as e:
+    print("Error during training:", e)
