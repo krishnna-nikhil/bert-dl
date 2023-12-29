@@ -1,3 +1,11 @@
+I conducted comprehensive EDA, proposed dataset improvements, and developed a dual-model approach—utilizing both pre-trained transformer and deep learning models
+
+
+
+
+
+
+
 
 
 
@@ -95,6 +103,27 @@ Outliers in text lengths may represent distinct patterns in the way users expres
 
 
 
+### Dataset Improvement Strategies: ###
+
+Augmentation Techniques to Increase Diversity:
+
+Text Augmentation: Apply techniques such as synonym replacement, random insertion, and paraphrasing to create variations in the textual content. This helps the model generalize better across different expressions of emotions.
+Embedding Techniques: Utilize word embeddings to find semantically similar words and replace existing words with their embeddings, introducing subtle variations in the dataset without altering the overall meaning.
+
+
+
+Addressing Class Imbalances in Emotions:
+
+Resampling Techniques: Employ techniques like oversampling (duplicating minority class samples) and undersampling (removing samples from the majority class) to balance the distribution of different emotions. This ensures that the model does not become biased towards predicting the majority class.
+Synthetic Data Generation: Generate synthetic samples using techniques like SMOTE (Synthetic Minority Over-sampling Technique) to create new instances of minority class samples by interpolating between existing ones.
+
+
+
+Gathering Additional Metadata or Contextual Information:
+
+User Demographics: If available, incorporate information about the users, such as age, gender, or location. Different demographic groups may express emotions differently, and this additional context can improve model accuracy.
+Product Details: Include metadata about the products being reviewed, such as category, brand, or price range. This information can help the model discern whether certain emotions are more prevalent for specific types of products.
+Temporal Information: If applicable, include timestamps to capture temporal patterns. Emotions towards a product may change over time due to external factors, and considering temporal aspects can enhance the model's predictive capabilities.
 
 
 
