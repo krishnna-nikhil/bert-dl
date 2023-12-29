@@ -56,7 +56,7 @@ Most tweets are relatively short, containing fewer than 20 words.
 
 
 
-### Based on the exploratory data analysis of the dataset, several patterns and trends emerge: ###
+**Based on the exploratory data analysis of the dataset, several patterns and trends emerge:**
 
 Emotion Distribution:
 
@@ -93,64 +93,6 @@ Patterns in tweet lengths and word counts suggest that users tend to adopt conci
 Outliers in text lengths may represent distinct patterns in the way users express uncertainty ("I can't tell") or intense emotions.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Deep Learning Model Explanation:
-
-**Code Explanation:**
-
-Data Preprocessing:
-- Cleaning Text: The `cleantext` function removes Twitter mentions, hashtags, URLs, extra whitespaces, and apostrophes from the text data.
-- Text Tokenization and Detokenization: Gensim is used for tokenization, and the TreebankWordDetokenizer is used for detokenization.
-- Lemmatization: The WordNet lemmatizer from NLTK is used for lemmatizing words, specifically focusing on verbs.
-- Stopword Removal and Punctuation Handling: Stopwords are removed, and punctuation is handled.
-- Text Tokenization with Keras: The text data is tokenized using the Tokenizer class from Keras, and sequences are generated with padding.
-
-Embedding Layer and Model Architecture:
-- An embedding layer is created with an input dimension of max_words (5000) and an output dimension of 64.
-- The model architecture consists of an embedding layer, a bidirectional LSTM layer with dropout, and a dense output layer with softmax activation for three classes.
-
-Label Mapping and Model Compilation:
-- The sentiment labels are converted to lowercase and mapped to numerical values.
-- Invalid labels are handled by replacing them with a default value.
-- The model is compiled with the Adam optimizer and sparse categorical cross-entropy loss.
-
-Training Loop:
-- The model is trained for 70 epochs with a validation split of 20%.
-- Training history is recorded for loss and accuracy.
-
-Error Handling:
-- A try-except block is implemented to handle errors during training and print the error message.
-
-**Evaluation Approach:**
-
-- Accuracy Metric: The training loop prints training loss, training accuracy, validation loss, and validation accuracy.
-- Visual Inspection: Plots are displayed for training loss vs. validation loss and training accuracy vs. validation accuracy to visually inspect the convergence of the model during training.
-- Error Handling: The try-except block ensures that errors during training are captured and printed, enhancing code robustness.
-
-Observations:
-- Training accuracy reaches a high value (99%) over epochs, suggesting that the model fits the training data well.
-
-
-Improvement Suggestions:
-- Fine-tuning hyperparameters, adjusting the model architecture, or introducing regularization techniques may improve validation performance.
 
 
 
@@ -229,3 +171,71 @@ Significance: Understanding the specific cases where the model struggles provide
 
 Calculation: Macro and weighted averages for precision, recall, and F1-score are computed, providing a holistic view of model performance.
 Significance: These averages account for class imbalances. The Weighted Avg F1-Score of 85% indicates a good overall performance considering the dataset's class 
+
+
+
+
+
+
+
+
+
+
+### Deep Learning Model Explanation:
+
+**Code Explanation:**
+
+Data Preprocessing:
+- Cleaning Text: The `cleantext` function removes Twitter mentions, hashtags, URLs, extra whitespaces, and apostrophes from the text data.
+- Text Tokenization and Detokenization: Gensim is used for tokenization, and the TreebankWordDetokenizer is used for detokenization.
+- Lemmatization: The WordNet lemmatizer from NLTK is used for lemmatizing words, specifically focusing on verbs.
+- Stopword Removal and Punctuation Handling: Stopwords are removed, and punctuation is handled.
+- Text Tokenization with Keras: The text data is tokenized using the Tokenizer class from Keras, and sequences are generated with padding.
+
+Embedding Layer and Model Architecture:
+- An embedding layer is created with an input dimension of max_words (5000) and an output dimension of 64.
+- The model architecture consists of an embedding layer, a bidirectional LSTM layer with dropout, and a dense output layer with softmax activation for three classes.
+
+Label Mapping and Model Compilation:
+- The sentiment labels are converted to lowercase and mapped to numerical values.
+- Invalid labels are handled by replacing them with a default value.
+- The model is compiled with the Adam optimizer and sparse categorical cross-entropy loss.
+
+Training Loop:
+- The model is trained for 70 epochs with a validation split of 20%.
+- Training history is recorded for loss and accuracy.
+
+Error Handling:
+- A try-except block is implemented to handle errors during training and print the error message.
+
+**Evaluation Approach:**
+
+- Accuracy Metric: The training loop prints training loss, training accuracy, validation loss, and validation accuracy.
+- Visual Inspection: Plots are displayed for training loss vs. validation loss and training accuracy vs. validation accuracy to visually inspect the convergence of the model during training.
+- Error Handling: The try-except block ensures that errors during training are captured and printed, enhancing code robustness.
+
+Observations:
+- Training accuracy reaches a high value (99%) over epochs, suggesting that the model fits the training data well.
+
+
+Improvement Suggestions:
+- Fine-tuning hyperparameters, adjusting the model architecture, or introducing regularization techniques may improve validation performance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
